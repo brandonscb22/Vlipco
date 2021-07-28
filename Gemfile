@@ -57,3 +57,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'grape'
 gem 'grape-active_model_serializers'
+gem 'rest-client'
+gem 'action_service'

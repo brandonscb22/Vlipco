@@ -17,7 +17,8 @@ ActiveRecord::Schema.define(version: 2021_07_27_033421) do
 
   create_table "cards", force: :cascade do |t|
     t.string "token"
-    t.string "type"
+    t.string "typeCard"
+    t.string "idCard"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -52,11 +53,12 @@ ActiveRecord::Schema.define(version: 2021_07_27_033421) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "lastName"
-    t.string "email"
+    t.string "email", null: false
     t.string "phone"
     t.string "typeUser"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "cards", "users"

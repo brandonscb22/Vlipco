@@ -12,7 +12,7 @@ class CardService < ApplicationService
           message: 'OK'
         }
       else
-        status 404
+        #status 404
         return {
           success: false,
           error: 'user ('+ params['email'] +') not found',
@@ -64,21 +64,14 @@ class CardService < ApplicationService
           }
         end
       else
-        status 404
-        return {
+        throw :error, :message => {
           success: false,
           error: 'user ('+ params['email'] +') not found',
           message:'user not found'
-        }
+        }, :status => 400
       end
     rescue => error
       p error.message
-      return {
-        success: false,
-        error: 'user ('+ params['email'] +') not found',
-        message:'user not found',
-        body: body
-      }
     end
   end
 

@@ -5,7 +5,12 @@ class UserService < ApplicationService
   end
 
   def createUser(params)
-    User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'])
+    user = User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'])
+    {
+      user: user,
+      railsENV: Rails.env,
+      railsWompi: Rails.application.credentials.WOMPI_URL,
+    }
   end
 
 end

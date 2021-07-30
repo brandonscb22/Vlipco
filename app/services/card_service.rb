@@ -1,22 +1,26 @@
 class CardService < ApplicationService
 
   def getAll(params)
-    # search user for email
-    user = User.find_by(email: params['email'])
-    if user
-      cards = Card.where(user: user)
-      return {
-        success: true,
-        data: cards,
-        message: 'OK'
-      }
-    else
-      status 404
-      return {
-        success: false,
-        error: 'user ('+ params['email'] +') not found',
-        message:'user not found'
-      }
+    begin
+      # search user for email
+      user = User.find_by(email: params['email'])
+      if user
+        cards = Card.where(user: user)
+        return {
+          success: true,
+          data: cards,
+          message: 'OK'
+        }
+      else
+        status 404
+        return {
+          success: false,
+          error: 'user ('+ params['email'] +') not found',
+          message:'user not found'
+        }
+      end
+    rescue => error
+      p error.message
     end
   end
 

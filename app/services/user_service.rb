@@ -5,12 +5,23 @@ class UserService < ApplicationService
   end
 
   def createUser(params)
-    user = User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'])
-    {
-      user: user,
-      railsENV: Rails.env,
-      railsWompi: Rails.application.credentials.WOMPI_URL,
-    }
+    begin
+      user = User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'])
+      return {
+        success: true,
+        data: {
+          user: user,
+          railsENV: Rails.env,
+          railsWompi: Rails.application.credentials.WOMPI_URL,
+        },
+        message: 'OK'
+      }
+    rescue ActiveRecord::RecordNotUnique
+      return {
+        success: false,
+        error: 'user ('+ params['email'] +') already exists',
+        message:'user already exists'
+      }
+    end
   end
-
 end

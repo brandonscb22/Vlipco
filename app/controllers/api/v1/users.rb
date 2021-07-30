@@ -4,7 +4,6 @@ module API
       include API::V1::Defaults
       userService = UserService.new
       resource :users do
-
         desc "Return all users"
         get "" do
           userService.getAll

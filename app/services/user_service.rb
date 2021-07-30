@@ -1,13 +1,18 @@
 class UserService < ApplicationService
 
   def getAll
-    User.all
+    users = User.all
+    {
+      success: true,
+      data: users,
+      message: 'OK'
+    }
   end
 
   def createUser(params)
     begin
       user = User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'])
-      return {
+      {
         success: true,
         data: {
           user: user,
@@ -17,11 +22,11 @@ class UserService < ApplicationService
         message: 'OK'
       }
     rescue ActiveRecord::RecordNotUnique
-      return {
+      throw :error, :message => {
         success: false,
         error: 'user ('+ params['email'] +') already exists',
         message:'user already exists'
-      }
+      }, :status => 400
     end
   end
 end

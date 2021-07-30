@@ -51,17 +51,17 @@ class CardService < ApplicationService
           idCard = body[:data][:id]
           # create association credit card -> user
           card = Card.create(token: tokenCard,typeCard: 'CARD',idCard:idCard,user: user)
-          return {
+          {
             success: true,
             data: card,
             message: 'OK'
           }
         else
-          return {
+          throw :error, :message => {
             success: false,
             error: 'card load failed',
             message:'card load failed'
-          }
+          }, :status => 400
         end
       else
         throw :error, :message => {

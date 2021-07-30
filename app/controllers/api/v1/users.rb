@@ -2,18 +2,14 @@ module API
   module V1
     class Users < Grape::API
       include API::V1::Defaults
+      userService = UserService.new
       resource :users do
+
         desc "Return all users"
         get "" do
-          User.all
+          userService.getAll
         end
-        desc "Return a user"
-        params do
-          requires :id, type: String, desc: "ID of the user"
-        end
-        get ":id" do
-          User.where(id: permitted_params[:id]).first!
-        end
+
         desc "Create a user"
         params do
           requires :name, type: String
@@ -23,7 +19,7 @@ module API
           requires :typeUser, type: String
         end
         post "" do
-          return User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'])
+          userService.createUser(params)
         end
       end
     end

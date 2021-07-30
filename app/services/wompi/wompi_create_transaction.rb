@@ -2,7 +2,6 @@ require 'rest-client'
 require 'json'
 class Wompi::WompiCreateTransaction < ApplicationService
   def initialize
-    logger.debug ENV['WOMPI_URL']
     @url = ENV['WOMPI_URL'] + '/merchants/' + ENV['WOMPI_PUB']
     @headers = {
       'content-type': "application/json",

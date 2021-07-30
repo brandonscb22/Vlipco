@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_033421) do
   create_table "travels", force: :cascade do |t|
     t.point "pointInit"
     t.point "pointFinish"
+    t.string "status"
     t.bigint "userRider_id", null: false
     t.bigint "userDriver_id"
     t.datetime "created_at", precision: 6, null: false

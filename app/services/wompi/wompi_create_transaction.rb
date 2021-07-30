@@ -2,7 +2,7 @@ require 'rest-client'
 require 'json'
 class Wompi::WompiCreateTransaction < ApplicationService
   def initialize
-    @url = ENV['WOMPI_URL'] + '/merchants/' + ENV['WOMPI_PUB']
+    @url = Rails.application.credentials.WOMPI_URL + '/merchants/' + ENV['WOMPI_PUB']
     @headers = {
       'content-type': "application/json",
       'x-apikey': "-------",

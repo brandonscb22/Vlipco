@@ -2,7 +2,7 @@ require 'rest-client'
 require 'json'
 class Wompi::WompiObtainToken < ApplicationService
   def initialize
-    @url = 'https://sandbox.wompi.co/v1/merchants/pub_test_7S3GeMXFwECiUQCIi73VfG2T5Mlstx7U'
+    @url = Rails.application.credentials.WOMPI_URL + '/merchants/' + Rails.application.credentials.WOMPI_PUB
   end
 
   def call

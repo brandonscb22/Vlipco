@@ -11,7 +11,7 @@ class UserService < ApplicationService
 
   def createUser(params)
     begin
-      user = User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'])
+      user = User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'], status: params['typeUser'] === 'D' ? 'AVAILABLE' : 'N/A')
       {
         success: true,
         data: {

@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :email , null: false , index: { unique: true }
       t.string :phone
       t.string :typeUser
+      t.string :status
 
       t.timestamps
     end

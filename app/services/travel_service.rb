@@ -21,33 +21,29 @@ class TravelService < ApplicationService
     user = User.find_by(email: params['email'])
     if user
       puts user.id
-      userDriver = User.find_by(typeUser: 'D')
+      userDriver = User.find_by(typeUser: 'D', status: 'AVAILABLE')
       if userDriver
-        puts userDriver.id
-        factory = RGeo::Cartesian.factory
-        # pointInit = Point.from_x_y(params['longitude'], params['latitude'])
-        # puts pointInit
         travel = Travel.create(userRider:user, pointInit:[params['longitude'], params['latitude']], userDriver:userDriver, status:'IN_PROGRESS')
+        userDriver.status = 'OCCUPIED'
+        userDriver.save
         {
           success: true,
           data: travel,
           message: 'OK'
         }
       else
-        status 404
-        {
+        throw :error, :message => {
           success: false,
           error: 'no driver found for user ('+ params['email'] +')',
           message:'driver not found'
-        }
+        }, :status => 404
       end
     else
-      status 404
-      return {
+      throw :error, :message => {
         success: false,
         error: 'user ('+ params['email'] +') not found',
         message:'user not found'
-      }
+      }, :status => 404
     end
   end
 

@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_033421) do
     t.string "email", null: false
     t.string "phone"
     t.string "typeUser"
+    t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true

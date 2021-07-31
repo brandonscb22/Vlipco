@@ -51,45 +51,55 @@ class TravelService < ApplicationService
     # search travel for id
     travel = Travel.find_by(id: params['idTravel'])
     if travel
-      # add point finish
-      travel[:pointFinish] = [params['longitude'], params['latitude']]
-      travel[:updated_at] = DateTime.now
-      travel[:status] = 'COMPLETED_PENDING_PAYMENT'
-      travel.save
-      # return distance in km
-      distanceTravel = self.calculateDistance([travel[:pointInit][:y],travel[:pointInit][:x]],[params['latitude'],params['longitude']])
-      priceDistance = distanceTravel * 1000
-      differentMinutes = ((travel[:updated_at] - travel[:created_at])/ 1.minutes).to_i
-      priceMinutes = differentMinutes * 200
-      priceTotal = (priceDistance + priceMinutes + 3500).round(0)
-      travel[:amount] = priceTotal
-      travel.save
-      user = User.find_by(id: travel[:userRider_id])
-      if user
-        card = Card.find_by(user: user)
-        if card
-          trx = Transaction.create(amountInCents:priceTotal*100,currency:'COP', customerEmail: user.email,paymentMethod: { "installments": 2 }, reference: 'vlipco' + DateTime.now.strftime('%Q'), paymentSourceId:card[:idCard], travel: travel)
-          wct = Wompi::WompiCreateTransaction.new(trx)
-          body = wct.call
-          trx[:response] = body
-          trx.save
-          {
-            success: true,
-            data: trx,
-            message: 'OK'
-          }
+      if travel[:status] != 'COMPLETED'
+        # add point finish
+        travel[:pointFinish] = [params['longitude'], params['latitude']]
+        travel[:updated_at] = DateTime.now
+        travel[:status] = 'COMPLETED_PENDING_PAYMENT'
+        travel.save
+        # return distance in km
+        distanceTravel = self.calculateDistance([travel[:pointInit][:y],travel[:pointInit][:x]],[params['latitude'],params['longitude']])
+        priceDistance = distanceTravel * 1000
+        differentMinutes = ((travel[:updated_at] - travel[:created_at])/ 1.minutes).to_i
+        priceMinutes = differentMinutes * 200
+        priceTotal = (priceDistance + priceMinutes + 3500).round(0)
+        travel[:amount] = priceTotal
+        travel.save
+        user = User.find_by(id: travel[:userRider_id])
+        if user
+          card = Card.find_by(user: user)
+          if card
+            trx = Transaction.create(amountInCents:priceTotal*100,currency:'COP', customerEmail: user.email,paymentMethod: { "installments": 2 }, reference: 'vlipco' + DateTime.now.strftime('%Q'), paymentSourceId:card[:idCard], travel: travel)
+            wct = Wompi::WompiCreateTransaction.new(trx)
+            body = wct.call
+            trx[:response] = body
+            trx.save
+            travel[:status] = 'COMPLETED'
+            travel.save
+            {
+              success: true,
+              data: trx,
+              message: 'OK'
+            }
+          else
+            throw :error, :message => {
+              success: false,
+              error: 'the rider ('+ user[:email] +') does not have an associated card',
+              message:'the rider does not have an associated card'
+            }, :status => 404
+          end
         else
           throw :error, :message => {
             success: false,
-            error: 'the rider ('+ user[:email] +') does not have an associated card',
-            message:'the rider does not have an associated card'
-          }, :status => 404
+            error: 'the travel ('+ travel[:id] +') has already been paid',
+            message:'The travel has already been paid'
+          }, :status => 400
         end
       else
         throw :error, :message => {
           success: false,
-          error: 'the user ('+ travel[:userRider] +') not found',
-          message:'the user rider not found'
+          error: 'travel (' + params['id'] + ') not found',
+          message:'travel not found'
         }, :status => 404
       end
     else

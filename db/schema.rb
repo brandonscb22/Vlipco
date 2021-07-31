@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_033421) do
     t.json "paymentMethod"
     t.string "reference"
     t.integer "paymentSourceId"
+    t.json "response"
     t.bigint "travel_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

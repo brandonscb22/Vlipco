@@ -12,6 +12,7 @@ class Wompi::WompiRegisterCard < ApplicationService
 
   def call
     puts @url
+    puts @body.to_json
     res = RestClient.post(@url, @body.to_json, {:Authorization => 'Bearer ' + Rails.application.credentials.WOMPI_PUB})
     body = JSON.parse(res, { symbolize_names: true })
     body

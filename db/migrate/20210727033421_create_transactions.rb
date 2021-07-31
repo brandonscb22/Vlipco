@@ -7,6 +7,7 @@ class CreateTransactions < ActiveRecord::Migration[6.1]
       t.json :paymentMethod
       t.string :reference
       t.integer :paymentSourceId
+      t.json :response
       t.references :travel, null: false, foreign_key: true
 
       t.timestamps

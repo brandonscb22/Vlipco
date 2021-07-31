@@ -5,12 +5,20 @@ module API
       include API::V1::Defaults
       travelService = TravelService.new
       resource :travels do
-        desc "Create travels"
+        desc "Get all travels user"
         params do
-          requires :email, type: String, desc: "ID of the travel"
+          requires :email, type: String
         end
         get "" do
-          travelService.getAll
+          travelService.getAll(params)
+        end
+
+        desc "Return a travel"
+        params do
+          requires :id, type: String, desc: "ID of the travel"
+        end
+        get ":id" do
+          travelService.get(params)
         end
 
         desc "Init travel"
@@ -19,16 +27,18 @@ module API
           requires :longitude, type: Float
           requires :latitude, type: Float
         end
-        post "" do
+        post "init" do
           travelService.create(params)
         end
 
-        desc "Return a travel"
+        desc "Finish travel"
         params do
-          requires :id, type: String, desc: "ID of the travel"
+          requires :idTravel, type: String
+          requires :longitude, type: Float
+          requires :latitude, type: Float
         end
-        put ":id" do
-          travelService.get(params)
+        put "terminate" do
+          travelService.terminate(params)
         end
       end
     end

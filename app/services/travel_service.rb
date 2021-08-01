@@ -67,7 +67,7 @@ class TravelService < ApplicationService
         if user
           card = Card.find_by(user: user)
           if card
-            trx = Transaction.create(amountInCents:priceTotal*100,currency:'COP', customerEmail: user.email,paymentMethod: { "installments": 2 }, reference: 'vlipco' + DateTime.now.strftime('%Q'), paymentSourceId:card[:idCard], travel: travel)
+            trx = Transaction.create(amountInCents:priceTotal*100,currency:'COP', customerEmail: user.email,paymentMethod: { "installments": 2 }, reference: 'driver_app' + DateTime.now.strftime('%Q'), paymentSourceId:card[:idCard], travel: travel)
             wct = Wompi::WompiCreateTransaction.new(trx)
             body = wct.call
             trx[:response] = body

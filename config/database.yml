@@ -23,13 +23,13 @@ default: &default
 
 development:
   <<: *default
-  database: Vlipco_development
+  database: driver_app_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system userApi running Rails.
-  #username: Vlipco
+  #username: driver_app
 
   # The password associated with the postgres role (username).
   #password:
@@ -57,7 +57,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: Vlipco_test
+  database: driver_app_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: Vlipco_production
-  username: Vlipco
-  password: <%= ENV['VLIPCO_DATABASE_PASSWORD'] %>
+  database: driver_app_production
+  username: driver_app
+  password: <%#= ENV['DRIVER_APP_DATABASE_PASSWORD'] %>

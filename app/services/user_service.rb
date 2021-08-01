@@ -14,11 +14,7 @@ class UserService < ApplicationService
       user = User.create(name: params['name'],lastName: params['lastName'], email: params['email'], phone: params['phone'], typeUser: params['typeUser'], status: params['typeUser'] === 'D' ? 'AVAILABLE' : 'N/A')
       {
         success: true,
-        data: {
-          user: user,
-          railsENV: Rails.env,
-          railsWompi: Rails.application.credentials.WOMPI_URL,
-        },
+        data: user,
         message: 'OK'
       }
     rescue ActiveRecord::RecordNotUnique

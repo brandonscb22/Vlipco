@@ -32,7 +32,6 @@ class CardService < ApplicationService
         # send info credit card
         wrt = Wompi::WompiRegisterCard.new(params['card'])
         body = wrt.call
-        puts JSON.pretty_generate(body)
         if body[:status] === 'CREATED'
           # token credit card obtain wompi
           tokenCard = body[:data][:id]

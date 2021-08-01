@@ -4,7 +4,6 @@ class TravelService < ApplicationService
     user = User.find_by(email: params[:email])
     travel = Travel.where(userRider: user)
     travel = travel.as_json
-    puts travel
     {
       success: true,
       data: travel,
@@ -20,7 +19,6 @@ class TravelService < ApplicationService
     # search user for email
     user = User.find_by(email: params['email'])
     if user
-      puts user.id
       userDriver = User.find_by(typeUser: 'D', status: 'AVAILABLE')
       if userDriver
         travel = Travel.create(userRider:user, pointInit:[params['longitude'], params['latitude']], userDriver:userDriver, status:'IN_PROGRESS')
@@ -93,19 +91,19 @@ class TravelService < ApplicationService
             success: false,
             error: 'the travel ('+ travel[:id] +') has already been paid',
             message:'The travel has already been paid'
-          }, :status => 400
+          }, :status => 404
         end
       else
         throw :error, :message => {
           success: false,
-          error: 'travel (' + params['id'] + ') not found',
+          error: 'travel (' + params[:idTravel] + ') not found',
           message:'travel not found'
         }, :status => 404
       end
     else
       throw :error, :message => {
         success: false,
-        error: 'travel (' + params['id'] + ') not found',
+        error: 'travel (' + params['idTravel'] + ') not found',
         message:'travel not found'
       }, :status => 404
     end

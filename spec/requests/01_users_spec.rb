@@ -5,14 +5,14 @@ RSpec.describe "Users", type: :request do
     let!(:paramsUserRiver) { {
       "name": "brandon",
       "lastName": "lopez",
-      "email": "brandonscb95@gmail.com",
+      "email": "brandonscb65@gmail.com",
       "phone": "+573107394292",
       "typeUser": "R"
     } }
     let!(:paramsUserDriver) { {
       "name": "brandon",
       "lastName": "lopez",
-      "email": "brandonslc95@gmail.com",
+      "email": "brandonslc53@gmail.com",
       "phone": "+573107394292",
       "typeUser": "D"
     } }

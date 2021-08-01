@@ -14,8 +14,6 @@ class Wompi::WompiCreateTransaction < ApplicationService
   end
 
   def call
-    puts @url
-    puts @params.to_json
     res = RestClient.post(@url, @params.to_json ,{content_type: :json, accept: :json,:Authorization => 'Bearer ' + Rails.application.credentials.WOMPI_PRV})
     body = JSON.parse(res, { symbolize_names: true })
     body

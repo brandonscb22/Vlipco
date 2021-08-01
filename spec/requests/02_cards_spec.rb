@@ -12,12 +12,11 @@ RSpec.describe "Cards", type: :request do
       },
       "email": "brandonscb95@gmail.com"
     } }
-    it "get card success" do
-      User.create(name: 'brandon steven',lastName: 'lopez cardenas', email: 'brandonscb95@gmail.com', phone: '+573107394292', typeUser: 'D')
+    it "post card success" do
       post '/api/v1/cards', params: params
       expect(response).to have_http_status(201)
     end
-    it "get card failed" do
+    it "post card failed" do
       post '/api/v1/cards', params: params.delete("email")
       expect(response).to have_http_status(400)
     end
@@ -28,8 +27,7 @@ RSpec.describe "Cards", type: :request do
       expect(response).to have_http_status(400)
     end
     it "get card success" do
-      user = User.create(name: 'brandon steven',lastName: 'lopez cardenas', email: 'brandonscb95@gmail.com', phone: '+573107394292', typeUser: 'D')
-      get '/api/v1/cards?email=' + user.email
+      get '/api/v1/cards?email=brandonscb95@gmail.com'
       expect(response).to have_http_status(200)
     end
   end
